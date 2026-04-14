@@ -1,0 +1,95 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="site.css">
+    <script src="site.js" defer></script>
+    <style>
+      /* Page-specific styling only (site.css owns nav/forms/buttons) */
+      @media screen and (min-width: 769px) {
+        .content div { margin-left: 105px; }
+      }
+</style>
+</head>
+<body>
+<div class="topnav">
+    <span class="menu-icon" onclick="openNav()">&#9776;</span><h1 class="mobile-header">Temperature chart</h1>                                                   
+    
+    <!-- Desktop navigation links -->
+    <div class="desktop-nav">
+        <a type="image" href="heart.png">
+        <img src="heart.png" width="30" height="30" alt="Heart Icon">
+    </a>
+    <a href="Temperature%20chart.html">Home&nbsp<i class="fa fa-home" ></i></a>
+    <a href="Day%201.html">New chart&nbsp<i class="fa fa-thermometer"></i></a>
+    <a href="about.html">About this website&nbsp<i class="fa fa-globe"></i></a>
+    <a href="Getting%20started.html">Getting started&nbsp<i class="fa fa-rocket"></i></a>
+    <a class="active" href="Devoloper.html">Contact&nbsp<i class="fa fa-phone"></i></a>
+    <a href="Convert%20to%20fahrenheit.html">Temperature converter&nbsp<i class="fa fa-wrench"></i></a>
+    <a href="account.html" class="ac-button">Your account and saved files&nbsp<i class="fa fa-user"></i></a>
+    </div>
+</div>
+
+<!-- Sidebar navigation -->
+<div id="mySidebar" class="sidebar"><h1 style="padding-left: 16px;">
+</h1>
+    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
+    <a href="Temperature%20chart.html">Home</a>
+    <a href="Day%201.html">New chart</a>
+    <a href="about.html">About this website</a>
+    <a href="Getting%20started.html">Getting started</a>
+    <a  class="active" href="Devoloper.html">Contact</a>
+    <a href="Convert%20to%20fahrenheit.html">Temperature converter</a>
+    <a href="account.html" class="ac-button">Your account and saved files</a>
+</div>
+
+
+<div class="typing-container1" style="padding-left: 16px;">
+    <h1 class="code-font typing">Contact me</h1><br>
+    <h3 class="code-font typing" style="font-size: 17px;">
+        Contact me for any details regarding this website or for coding assistance via <a href="https://Whatsapp.com">Whatsapp</a> by messaging to +94773039564 or via <a href="https://mail.google.com/mail/u/0/?tab=rm&ogbl">Gmail</a> through kavitharoshanth@gmail.com.
+    </h3>
+    <br>
+    <i class="fa fa-whatsapp"></i> <a class="code-font typing" href="https://api.whatsapp.com/send?phone=94722408384">+94722408384</a><br><br>
+    <i class="fa fa-envelope"></i> <a class="code-font typing" href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose=CllgCJZWPhKcnhwlzdQjnfGCJCXbdRzsXkbgSMNzmZcVHwpCbdvVsZpclDKhxWddhDsLbjXFcSB">kavitharoshanth@gmail.com</a>
+<br><br>
+    <h3 class="code-font typing" style="font-size: 17px;">
+        I value your comments amd request your assistance for improving this website. Share your suggestions by giving a feedback. I look forward to improve my website with your help.
+    </h3><br>
+    <button onclick="newChart()">Feedback form</button><br>
+</div>
+</body>
+<section id="temperature-info-container" class="temp-info-container" aria-labelledby="temp-info-title">
+    <div class="temp-info-inner">
+      <h2 id="temp-info-title">Temperature Chart</h2>
+      <div class="temp-info-text">
+        <p>Temperature Chart is a simple, user‑friendly tool designed to help you keep track of body temperature readings with ease. Created to support everyday health monitoring, it allows patients, caregivers, and medical professionals to record and review data in one place. Every entry is automatically time‑stamped, making your records accurate and reliable. If you’re new here, start with the Getting Started guide for step‑by‑step instructions, or explore the About page to learn more about the vision behind this project.</p>
+      </div>
+      <div class="temp-contact">
+        <strong>Contact</strong><br><br>
+        <p>Email: <a href="mailto:kavitharoshanth@gmail.com">kavitharoshanth@gmail.com</a></p>
+        <p>Whatsapp: <a href="tel:+94722408384">+94 72 24 08384</a></p>
+        <p>Office: Base Hospital, Kalmunai-North</p>
+      </div>
+    </div>
+  </section>
+    <script>
+    function openNav() {
+        document.getElementById("mySidebar").style.width = "250px"; // Set the width of the sidebar when opened
+    }
+
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0"; // Set the width of the sidebar to 0 when closed
+    }
+     function newChart() {
+        window.location.href = "new-chart.html";
+    }
+</script>
+</html>
+
+

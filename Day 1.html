@@ -1,0 +1,163 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site.css">
+    <script src="site.js" defer></script>
+    <title>Create New Chart</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+<style>
+    /* Page-specific styling only (site.css owns nav/forms/buttons) */
+    .content { padding-left: 16px; }
+</style>
+</head>
+<body>
+<div class="topnav">
+    <span class="menu-icon" onclick="openNav()">&#9776;</span><h1 class="mobile-header">Temperature chart</h1>                                                   
+    
+    <!-- Desktop navigation links -->
+    <div class="desktop-nav">
+        <a type="image" href="heart.png">
+        <img src="heart.png" width="30" height="30" alt="Heart Icon">
+    </a>
+    <a href="Temperature%20chart.html">Home&nbsp<i class="fa fa-home" ></i></a>
+    <a class="active" href="Day%201.html">New chart&nbsp<i class="fa fa-thermometer"></i></a>
+    <a href="about.html">About this website&nbsp<i class="fa fa-globe"></i></a>
+    <a href="Getting%20started.html">Getting started&nbsp<i class="fa fa-rocket"></i></a>
+    <a href="Devoloper.html">Contact&nbsp<i class="fa fa-phone"></i></a>
+    <a href="Convert%20to%20fahrenheit.html">Temperature converter&nbsp<i class="fa fa-wrench"></i></a>
+    <a href="account.html" class="ac-button">Your account and saved files&nbsp<i class="fa fa-user"></i></a>
+    </div>
+</div>
+
+
+<!-- Sidebar navigation -->
+<div id="mySidebar" class="sidebar"><h1 style="padding-left: 16px;"></h1>
+    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
+    <a href="Temperature%20chart.html">Home</a>
+	<a class="active" href="Day%201.html">New chart</a>
+    <a href="about.html">About this website</a>
+    <a href="Getting%20started.html">Getting started</a>
+    <a href="Devoloper.html">Contact</a>
+    <a href="Convert%20to%20fahrenheit.html">Temperature converter</a>
+    <a href="account.html" class="ac-button">Your account and saved files</a>
+</div>
+<div class="typing-container1">
+<h1>1. Record Live Temperatures</h1><br>
+<h2>What is a "Record Live Temperatures" chart?</h2><br>  
+<p class="code-font typing" id="typed-text"></p>
+<button onclick="newChart()">Record live temperatures&nbsp<i class="fa fa-line-chart"></i></button>
+</div><br>
+<div class="typing-container1">
+<h1>2.Record fever history</h1><br>
+<h2>Why use a "Record fever history" chart?</h2>
+<p class="code-font typing" id="typed-about"></p>
+<br>
+<button onclick="recFvr()">Record fever history&nbsp<i class="fa fa-line-chart"></i></button>       
+</div>        
+<br><br>
+    
+
+<section id="temperature-info-container" class="temp-info-container" aria-labelledby="temp-info-title">
+    <div class="temp-info-inner">
+      <h2 id="temp-info-title">Temperature Chart</h2>
+      <div class="temp-info-text">
+        <p>Temperature Chart is a simple, user‑friendly tool designed to help you keep track of body temperature readings with ease. Created to support everyday health monitoring, it allows patients, caregivers, and medical professionals to record and review data in one place. Every entry is automatically time‑stamped, making your records accurate and reliable. If you’re new here, start with the Getting Started guide for step‑by‑step instructions, or explore the About page to learn more about the vision behind this project.</p>
+      </div>
+      <div class="temp-contact">
+        <strong>Contact</strong><br><br>
+        <p>Email: <a href="mailto:kavitharoshanth@gmail.com">kavitharoshanth@gmail.com</a></p>
+        <p>Whatsapp: <a href="tel:+94722408384">+94 72 24 08384</a></p>
+        <p>Office: Base Hospital, Kalmunai-North</p>
+      </div>
+    </div>
+  </section>   
+<script>
+
+function newChart() {
+        window.location.href = "Day 2.html";
+    }
+function recFvr() {
+        window.location.href = "Temperatures recorded in all five days.html";
+    }
+
+function openNav() {
+        document.getElementById("mySidebar").style.width = "250px"; // Set the width of the sidebar when opened
+    }
+
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0"; // Set the width of the sidebar to 0 when closed
+    }
+    const segments = [
+  "The ",
+  { html: '<i>Record Live Temperatures</i>' },
+  " chart is an online fever chart designed to instantly log a person’s body temperature at the exact time it is entered. Its unique feature is that it automatically marks the temperature against the current time of entry, without requiring you to manually input date or time.",
+  {html: '<br>'},
+  "Key Details:",
+  {html: '<ul><li>No need to enter date or time — the chart records automatically.</li>'},
+  {html: '<ul><li>Temperatures are logged in real time as you input them.</li>'},
+  {html: '<ul><li>This version uses <a href="https://www.google.com/search?q=indian+standard+time&rlz=1C1CHZO_enLK1086LK1086&oq=Indian+Standere&gs_lcrp=EgZjaHJvbWUqCQgBEAAYChiABDIGCAAQRRg5MgkIARAAGAoYgAQyCQgCEAAYChiABDIJCAMQABgKGIAEMgkIBBAAGAoYgAQyCQgFEAAYChiABDIJCAYQABgKGIAEMgkIBxAAGAoYgAQyCQgIEAAYChiABDIJCAkQABgKGIAE0gEJMTExODVqMGo3qAIIsAIB&sourceid=chrome&ie=UTF-8&safe=active">Indian Standard Time (IST)</a>which is <b>GMT+05:30</b>.</li></ul>'},
+];
+
+const target = document.getElementById("typed-text");
+let segIndex = 0;
+let charIndex = 0;
+const speed = 25; // ms per character
+
+
+
+
+const segmentsAbout = [
+  "The ",
+  { html: '<i>Record Fever History</i>' },
+  " chart allows you to maintain a detailed record of body temperatures over time. Unlike the live chart, this version lets you input past readings, making it ideal for tracking fever patterns across days.",
+  {html: '<br>'},
+  "Features:",
+  {html: '<ul><li>Input temperatures from any date.</li>'},
+  {html: '<ul><li>Manually specify both <b>date</b> and <b>time</b> for each entry.</li>'},
+    {html: '<ul><li>Data points are spaced according to the date and time you provide.</li>'},
+    {html: '<ul><li>Offers more flexibility and control, making it highly user-friendly.</li>'},
+];
+
+
+function typeWriter(segments, targetId, speed = 25) {
+  const target = document.getElementById(targetId);
+  let segIndex = 0;
+  let charIndex = 0;
+
+  function type() {
+    if (segIndex < segments.length) {
+      const segment = segments[segIndex];
+      if (typeof segment === "string") {
+        if (charIndex < segment.length) {
+          target.innerHTML += segment.charAt(charIndex);
+          charIndex++;
+          setTimeout(type, speed);
+        } else {
+          segIndex++;
+          charIndex = 0;
+          type();
+        }
+      } else {
+        target.innerHTML += segment.html;
+        segIndex++;
+        charIndex = 0;
+        setTimeout(type, speed);
+      }
+    }
+  }
+  type();
+}
+
+// Run both animations
+typeWriter(segments, "typed-text");
+typeWriter(segmentsAbout, "typed-about");
+</script>
+</body>
+</html>

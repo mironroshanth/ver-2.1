@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature Chart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="highcharts.js"></script>
+    <link rel="stylesheet" href="site.css">
+    <script src="site.js" defer></script>
+    <style>
+.save-buttons-container {
+  display: flex;
+  justify-content: center; /* centers them horizontally */
+  gap: 15px; /* spacing between buttons */
+  margin-top: 20px;
+}
+
+.save-button {
+  flex: 1; /* ensures equal width */
+  max-width: 200px; /* controls maximum size */
+  padding: 10px 15px; /* smaller button size */
+  font-size: 14px; /* smaller text */
+  text-align: center;
+}
+      /* Page-specific styling only (site.css owns nav/forms/buttons) */
+      .content { padding-left: 16px; margin-top: 80px; }
+    </style>
+</head>
+<body>
+<div class="topnav">
+    <span class="menu-icon" onclick="openNav()">&#9776;</span><h1 class="mobile-header">Temperature chart</h1>
+
+    <!-- Desktop navigation links -->
+    <div class="desktop-nav">
+        <a type="image" href="heart.png">
+        <img src="heart.png" width="30" height="30" alt="Heart Icon">
+    </a>
+    <a href="Temperature%20chart.html">Home&nbsp<i class="fa fa-home" ></i></a>
+    <a class="active" href="Day%201.html">New chart&nbsp<i class="fa fa-thermometer"></i></a>
+    <a href="about.html">About this website&nbsp<i class="fa fa-globe"></i></a>
+    <a href="Getting%20started.html">Getting started&nbsp<i class="fa fa-rocket"></i></a>
+    <a href="Devoloper.html">Contact&nbsp<i class="fa fa-phone"></i></a>
+    <a href="Convert%20to%20fahrenheit.html">Temperature converter&nbsp<i class="fa fa-wrench"></i></a>
+    <a href="account.html" class="ac-button">Your account and saved files&nbsp<i class="fa fa-user"></i></a>
+    </div>
+</div>
+
+<!-- Sidebar navigation -->
+<div id="mySidebar" class="sidebar"><h1 style="padding-left: 16px;"></h1>
+    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
+    <a href="Temperature%20chart.html">Home</a>
+    <a class="active" href="Day%201.html">New chart</a>
+    <a href="about.html">About this website</a>
+    <a href="Getting%20started.html">Getting started</a>
+    <a href="Devoloper.html">Contact</a>
+    <a href="Convert%20to%20fahrenheit.html">Temperature converter</a>
+    <a href="account.html" class="ac-button">Your account and saved files</a>
+</div>
+    <div class="content">
+        <div class="typing-container2">
+            <h1 class="code-font typing">Record fever history</h1><br><br>
+                <h3 class="code-font typing">Features:</h3>
+                <ul><li><p class="code-font typing">Input temperatures from any date.</p></li></ul>
+                <ul><li><p class="code-font typing">Manually specify both <b>date</b> and <b>time</b> for each entry.</p></li></ul>
+                <ul><li><p class="code-font typing">Data points are spaced according to the date and time you provide.</p></li></ul>
+        </div>
+        <br><br>
+
+        <div id="printableArea">
+            <div class="container">
+                <h2>Details</h2>
+                <label for="name">Name:</label>
+                <input type="text" id="name" placeholder="Enter name">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob">
+                <button onclick="calculateAge()">Calculate Age</button>
+                <p id="result"></p>
+                <label for="startDate">Measured from:</label>
+                <input type="date" id="startDate">
+                <button onclick="generateChart()">Generate Chart</button>
+
+                <h3>Add Data</h3>
+                <label for="dateInput">Date:</label>
+                <input type="date" id="dateInput">
+                <label for="timeInput">Time (HH:MM):</label>
+                <input type="time" id="timeInput">
+                <label for="tempInput">Temperature (&deg;F/<a href="Convert%20to%20fahrenheit.html">Click here</a> to convert your temperature):</label>
+                <input type="number" id="tempInput" step="0.1">
+                <button onclick="addData()">Add Data</button>
+            </div>
+
+            <div id="container" style="width: 100%; height: 600px;"></div>
+        </div>
+    </div>
+    <div class="save-buttons-container">
+    <button id="toggleGridButton" class="save-button" onclick="toggleGrid()"><i class="material-icons" style="color: white;">grid_on</i>Show Grid</button><br><br>
+    <button id="saveButton" class="save-button"><i class="fa fa-save" style="color: white;"></i>Save</button><br><br> <!-- Removed inline onclick -->
+    <button class="save-button" onclick="printPrintableArea()"><i class="fa fa-print" style="color: white;"></i>Print</button><br><br>
+    <button id="shareGmail" class="save-button" onclick="shareGmail()"><i class="fa fa-envelope" style="color: white;"></i>Share via Email</button><br><br>
+    <button id="shareWhatsApp" class="save-button" onclick="shareWhatsApp()"><i class="fa fa-whatsapp" style="color: white;"></i>Share via WhatsApp</button><br><br>
+    <button id="newChartSheet" class="save-button" onclick="newChartSheet()"><i class="fa fa-line-chart" style="color: white;"></i>New Chart Sheet</button><br><br>
+    </div>
+    <br>
+    <section id="temperature-info-container" class="temp-info-container" aria-labelledby="temp-info-title">
+        <div class="temp-info-inner">
+          <h2 id="temp-info-title">Temperature Chart</h2>
+          <div class="temp-info-text">
+            <p>Temperature Chart is a simple, user‑friendly tool designed to help you keep track of body temperature readings with ease. Created to support everyday health monitoring, it allows patients, caregivers, and medical professionals to record and review data in one place. Every entry is automatically time‑stamped, making your records accurate and reliable. If you’re new here, start with the Getting Started guide for step‑by‑step instructions, or explore the About page to learn more about the vision behind this project.</p>
+          </div>
+          <div class="temp-contact">
+            <strong>Contact</strong><br><br>
+            <p>Email: <a href="mailto:kavitharoshanth@gmail.com">kavitharoshanth@gmail.com</a></p>
+            <p>Whatsapp: <a href="tel:+94722408384">+94 72 24 08384</a></p>
+            <p>Office: Base Hospital, Kalmunai-North</p>
+          </div>
+        </div>
+      </section>
+<!-- Firebase SDKs -->
+<!-- Using a recent version (10.11.0 as of this example), check Firebase docs for the latest recommended -->
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+
+<script>
+    // Your Firebase project configuration
+    // *** REPLACE WITH YOUR ACTUAL CONFIG FROM THE FIREBASE CONSOLE! ***
+    // Go to Project settings -> General -> Your apps -> Select your web app
+    const firebaseConfig = {
+      apiKey: "AIzaSyB_iG1hCwRs82h_EoLmVERfHKxO2fh-M-Q", // <-- Replace this!
+      authDomain: "temperature-chart-47839.firebaseapp.com",
+      projectId: "temperature-chart-47839",
+      storageBucket: "temperature-chart-47839.firebasestorage.app",
+      messagingSenderId: "764348196897",
+      appId: "1:764348196897:web:10e513dc51e6e839665b60",
+      // Add the databaseURL for Realtime Database
+      databaseURL: "https://temperature-chart-47839-default-rtdb.asia-southeast1.firebasedatabase.app" // <-- Make sure this is correct
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+
+    // Get references to the Auth and Database services
+    const auth = app.auth();
+    const database = app.database();
+
+    console.log("Firebase SDKs initialized on Chart page (Five Days)!");
+
+    // --- Firebase Authentication State Observer ---
+    // Check auth state on page load and update UI elements like the Save button
+    // This ensures the Save button is only enabled when a user is signed in
+    auth.onAuthStateChanged(function(user) {
+        const saveButton = document.getElementById('saveButton');
+        if (saveButton) { // Check if the button exists on this page
+             if (user) {
+                 // User is signed in. Enable saving.
+                 console.log("User signed in on Chart page (Five Days):", user.email, "UID:", user.uid);
+                 saveButton.disabled = false; // Enable the save button
+             } else {
+                 // User is signed out. Disable saving.
+                 console.log("No user signed in on Chart page (Five Days).");
+                 saveButton.disabled = true; // Disable the save button
+                 // You could also show a message explaining why saving is disabled
+             }
+        }
+    });
+
+
+    let chart; // Declare chart variable in a scope accessible by other functions
+    // Global array to hold the temperature data points
+    // Each point should be { x: timestamp, y: temperature, customTime: 'HH:MM' }
+    const data = [];
+    let isGridVisible = false; // Initialize grid visibility state
+
+    // Function to calculate age
+    function calculateAge() {
+        const name = document.getElementById('name').value.trim(); // Use trim() to remove whitespace
+        const dobInput = document.getElementById('dob').value;
+        const resultElement = document.getElementById('result'); // Get result paragraph
+
+        if (!dobInput || !name) {
+            resultElement.innerText = 'Please enter both name and date of birth.';
+            return;
+        }
+
+        const dob = new Date(dobInput);
+        const today = new Date();
+
+        // Check for valid date
+        if (isNaN(dob.getTime())) {
+             resultElement.innerText = 'Invalid date entered.';
+             return;
+        }
+
+        let ageYears = today.getFullYear() - dob.getFullYear();
+        let ageMonths = today.getMonth() - dob.getMonth();
+        let ageDays = today.getDate() - dob.getDate();
+
+        // Adjust age if birthday hasn't occurred this year/month
+        if (ageDays < 0) {
+            ageMonths--;
+            // Calculate days in the previous month
+            const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+            ageDays += lastMonth.getDate();
+        }
+
+        if (ageMonths < 0) {
+            ageYears--;
+            ageMonths += 12;
+        }
+
+         // Handle cases for exactly birthday month/day
+         if (today.getMonth() === dob.getMonth() && today.getDate() === dob.getDate() && ageYears >= 0) {
+            resultElement.innerText = `${name} is ${ageYears} years old today! Happy Birthday!`;
+         } else if (ageYears < 0) {
+              resultElement.innerText = 'Date of birth is in the future.';
+         }
+         else if (ageYears === 0 && ageMonths === 0 && ageDays === 0) {
+             resultElement.innerText = `${name} is less than a day old.`;
+         }
+         else {
+             // Format the output string
+             let ageString = `${name} is `;
+             if (ageYears > 0) ageString += `${ageYears} year${ageYears > 1 ? 's' : ''}`;
+             if (ageYears > 0 && ageMonths > 0) ageString += ', ';
+             if (ageMonths > 0) ageString += `${ageMonths} month${ageMonths > 1 ? 's' : ''}`;
+             if ((ageYears > 0 || ageMonths > 0) && ageDays > 0) ageString += ', and ';
+             if (ageDays > 0 || (ageYears === 0 && ageMonths === 0)) ageString += `${ageDays} day${ageDays > 1 ? 's' : ''}`;
+
+             resultElement.innerText = ageString + '.';
+         }
+
+    }
+
+    // Function to generate or update the Highcharts chart
+    function generateChart() {
+    if (chart) {
+        chart.destroy(); // Destroy previous chart instance if it exists
+    }
+
+    chart = Highcharts.chart('container', {
+        time: { useUTC: false },
+        chart: {
+            type: 'line',
+            backgroundColor: 'transparent',
+            style: { color: 'rgba(255,255,255,.92)' },
+            events: {
+                click: function (event) {
+                    const point = this.series[0].searchPoint(event, true);
+                    if (point) {
+                        const newTemperature = prompt("Enter a new temperature value for " +
+                            Highcharts.dateFormat('%A, %dth of %m %Y %H:%M', point.x));
+                        if (newTemperature !== null && newTemperature.trim() !== '' && !isNaN(Number(newTemperature))) {
+                            const updatedTemp = Number(newTemperature);
+                            if (updatedTemp >= 95 && updatedTemp <= 105) {
+                                point.update(updatedTemp);
+                                const dataPointIndex = data.findIndex(p => p.x === point.x);
+                                if (dataPointIndex !== -1) {
+                                    data[dataPointIndex].y = updatedTemp;
+                                    console.log(`Updated temperature for timestamp ${point.x} to ${updatedTemp}`);
+                                }
+                            } else {
+                                alert('Please enter a valid temperature value between 95 and 105.');
+                            }
+                        } else if (newTemperature !== null) {
+                            alert('Invalid number entered.');
+                        }
+                    }
+                }
+            }
+        },
+        title: {
+            text: 'Temperature Record',
+            style: { color: 'rgba(255,255,255,.92)' }
+        },
+        xAxis: {
+            type: 'datetime',
+            title: {
+                text: 'Time',
+                style: { color: 'rgba(255,255,255,.92)' }
+            },
+            tickInterval: 3600000 * 6,
+            startOnTick: false,
+            endOnTick: false,
+            labels: {
+                format: '{value:%Y-%m-%d %H:%M}',
+                rotation: -45,
+                style: {
+                    fontSize: '10px',
+                    color: 'rgba(255,255,255,.80)'
+                }
+            },
+            gridLineWidth: isGridVisible ? 1 : 0,
+            gridLineColor: isGridVisible ? '#53535381' : null
+        },
+        yAxis: [
+            { // Primary Y-axis (Fahrenheit)
+                title: {
+                    text: 'Temperature (°F)',
+                    style: { color: 'rgba(255,255,255,.92)' }
+                },
+                min: 95,
+                max: 105,
+                labels: { style: { color: 'rgba(255,255,255,.80)' } },
+                plotLines: [{
+                    color: 'rgba(255, 0, 0, 0.5)',
+                    width: 1,
+                    value: 98.4,
+                    dashStyle: 'solid',
+                    label: {
+                        text: '98.4°F',
+                        align: 'right',
+                        style: { color: 'red' }
+                    },
+                    zIndex: 5
+                }],
+                gridLineWidth: isGridVisible ? 1 : 0,
+                gridLineColor: isGridVisible ? '#53535381' : null
+            },
+            { // Secondary Y-axis (Celsius)
+                title: {
+                    text: 'Temperature (°C)',
+                    style: { color: 'rgba(255,255,255,.92)' }
+                },
+                opposite: true,
+                linkedTo: 0, // mirror Fahrenheit ticks
+                labels: {
+                    formatter: function () {
+                        return ((this.value - 32) * 5 / 9).toFixed(1);
+                    },
+                    style: { color: 'rgba(255,255,255,.80)' }
+                }
+            }
+        ],
+        tooltip: {
+            formatter: function () {
+                const point = this.point;
+                const customTime = point.customTime;
+                const displayTime = customTime || Highcharts.dateFormat('%H:%M', this.x);
+                return `<b>Date: </b>${Highcharts.dateFormat('%Y-%m-%d', this.x)}<br/>` +
+                       `<b>Time: </b>${displayTime}<br/>` +
+                       `<b>Temperature: </b>${this.y}°F / ${((this.y - 32) * 5 / 9).toFixed(1)}°C`;
+            },
+            backgroundColor: 'rgba(0,0,0,.85)',
+            borderColor: 'rgba(255,255,255,.12)',
+            style: { color: 'rgba(255,255,255,.95)' }
+        },
+        series: [{
+            name: 'Temperature',
+            yAxis: 0,
+            color: '#16a34a',
+            data: data,
+            dataLabels: {
+                enabled: true,
+                format: '{y}°F',
+                style: {
+                    color: 'rgba(255,255,255,.95)',
+                    fontSize: '10px',
+                    textOutline: 'none'
+                }
+            }
+        }]
+    });
+
+    console.log("Chart generated or updated with data:", data);
+}
+
+
+
+    // Function to add data points from input fields
+    function addData() {
+        const dateInput = document.getElementById('dateInput').value;
+        const timeInput = document.getElementById('timeInput').value;
+        const tempInput = parseFloat(document.getElementById('tempInput').value);
+
+
+        if (!dateInput || !timeInput || isNaN(tempInput)) {
+            alert('Please enter a valid date, time, and temperature.');
+            return;
+        }
+
+        // Combine date and time into a single Date object's timestamp
+        const dateTimeString = `${dateInput}T${timeInput}`; // Format compatible with new Date()
+        const dateTime = new Date(dateTimeString).getTime(); // Get Unix timestamp (milliseconds)
+
+        // Validate temperature range (optional but good practice)
+        if (tempInput < 95 || tempInput > 105) {
+             alert('Please enter a temperature value between 95 and 105°F.');
+             return;
+        }
+
+
+        // Check if a point with the same timestamp already exists to avoid duplicates
+        const existingPointIndex = data.findIndex(point => point.x === dateTime);
+        if (existingPointIndex !== -1) {
+             const confirmOverwrite = confirm(`A temperature is already recorded at ${dateInput} ${timeInput}. Do you want to overwrite it?`);
+             if (!confirmOverwrite) {
+                 return; // Don't overwrite if user cancels
+             }
+              // If confirmed, remove the existing point before adding the new one
+              data.splice(existingPointIndex, 1);
+        }
+
+
+        // Add the new data point to the global 'data' array
+        // Store timestamp (x), temperature (y), and custom time string
+        data.push({
+            x: dateTime,
+            y: tempInput,
+            customTime: timeInput // Save the original time string for the tooltip
+        });
+
+        // Sort the data array by timestamp to ensure the line chart is correct
+        data.sort((a, b) => a.x - b.x);
+
+        console.log("Added Data Point:", { dateInput, timeInput, tempInput });
+        console.log("Updated and Sorted Data Array:", data);
+
+        // Update the chart with the new data
+        if (chart) {
+            // setData replaces all points. Pass the entire sorted 'data' array.
+            // The second argument 'true' redraws the chart immediately.
+            chart.series[0].setData(data, true);
+        } else {
+            alert('Please generate the chart first.');
+        }
+
+        // Clear input fields after adding data
+        document.getElementById('dateInput').value = '';
+        document.getElementById('timeInput').value = '';
+        document.getElementById('tempInput').value = '';
+         document.getElementById('dateInput').focus(); // Set focus back to the date input
+    }
+
+    // Function to calculate age (keeping your existing logic)
+    function calculateAge() {
+        const name = document.getElementById('name').value.trim(); // Use trim()
+        const dobInput = document.getElementById('dob').value;
+        const resultElement = document.getElementById('result'); // Get result paragraph
+
+        if (!dobInput || !name) {
+            resultElement.innerText = 'Please enter both name and date of birth.';
+            return;
+        }
+
+        const dob = new Date(dobInput);
+        const today = new Date();
+
+        // Check for valid date
+        if (isNaN(dob.getTime())) {
+             resultElement.innerText = 'Invalid date entered.';
+             return;
+        }
+
+        let ageYears = today.getFullYear() - dob.getFullYear();
+        let ageMonths = today.getMonth() - dob.getMonth();
+        let ageDays = today.getDate() - dob.getDate();
+
+        // Adjust age if birthday hasn't occurred this year/month
+        if (ageDays < 0) {
+            ageMonths--;
+            const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+            ageDays += lastMonth.getDate();
+        }
+
+        if (ageMonths < 0) {
+            ageYears--;
+            ageMonths += 12;
+        }
+
+         // Handle cases for exactly birthday month/day
+         if (today.getMonth() === dob.getMonth() && today.getDate() === dob.getDate() && ageYears >= 0) {
+            resultElement.innerText = `${name} is ${ageYears} years old today! Happy Birthday!`;
+         } else if (ageYears < 0) {
+              resultElement.innerText = 'Date of birth is in the future.';
+         }
+         else if (ageYears === 0 && ageMonths === 0 && ageDays === 0) {
+             resultElement.innerText = `${name} is less than a day old.`;
+         }
+         else {
+             // Format the output string
+             let ageString = `${name} is `;
+             if (ageYears > 0) ageString += `${ageYears} year${ageYears > 1 ? 's' : ''}`;
+             if (ageYears > 0 && ageMonths > 0) ageString += ', ';
+             if (ageMonths > 0) ageString += `${ageMonths} month${ageMonths > 1 ? 's' : ''}`;
+             if ((ageYears > 0 || ageMonths > 0) && ageDays > 0) ageString += ', and ';
+             if (ageDays > 0 || (ageYears === 0 && ageMonths === 0)) ageString += `${ageDays} day${ageDays > 1 ? 's' : ''}`;
+
+             resultElement.innerText = ageString + '.';
+         }
+    }
+
+    // --- Save Chart Data to Firebase Realtime Database (with name prompt) ---
+    // This function replaces the localStorage saving logic
+function saveChartData() {
+    const user = auth.currentUser;
+    if (!user) {
+        alert('Please sign in to your account to save charts.');
+        return;
+    }
+
+    const name = document.getElementById('name').value.trim();
+    const dob = document.getElementById('dob').value;
+    const startDate = document.getElementById('startDate').value;
+    const temperatures = chart && chart.series && chart.series[0] && chart.series[0].data.map(point => ({
+        timestamp: point.x,
+        value: point.y,
+        customTime: point.customTime
+    })) || [];
+
+    if (!name || !dob || !startDate) {
+        alert('Please enter patient name, date of birth, and chart start date before saving.');
+        return;
+    }
+
+    if (temperatures.length === 0) {
+        alert('Please add some temperature data to the chart before saving.');
+        return;
+    }
+
+    const defaultFileName = name ? `${name} - ${new Date().toLocaleDateString()}` : `Chart - ${new Date().toLocaleDateString()}`;
+    const fileNamePrompt = prompt('Enter a name to save this chart file:', defaultFileName);
+
+    if (!fileNamePrompt || fileNamePrompt.trim() === '') {
+        alert('Saving cancelled. File name cannot be empty.');
+        return;
+    }
+
+    const uniqueFileName = fileNamePrompt.trim();
+    const fileDataToSave = {
+        fileName: uniqueFileName,
+        sourcePage: 'Temperatures recorded in all five days',
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
+        fileData: {
+            name: name,
+            dob: dob,
+            startDate: startDate,
+            temperatures: temperatures
+        }
+    };
+
+    const userFilesRef = database.ref('patients/' + user.uid + '/files');
+
+    // Check if a file with the same fileName already exists
+    userFilesRef.orderByChild('fileName').equalTo(uniqueFileName).once('value', function(snapshot) {
+        if (snapshot.exists()) {
+            // File with this name exists
+            if (confirm('There already is a file with this name. Do you want to overwrite it?')) {
+                // Overwrite: update the existing entry
+                const existingKey = Object.keys(snapshot.val())[0];
+                userFilesRef.child(existingKey).set(fileDataToSave)
+                    .then(() => {
+                        alert(`Chart data overwritten as "${uniqueFileName}" in your account!`);
+                        window.location.href = 'account.html';
+                    })
+                    .catch((error) => {
+                        alert('Error overwriting chart data: ' + error.message);
+                    });
+            } else {
+                // User cancelled overwrite
+                alert('Saving cancelled.');
+            }
+        } else {
+            // No existing file, create a new one
+            userFilesRef.push().set(fileDataToSave)
+                .then(() => {
+                    alert(`Chart data saved successfully as "${uniqueFileName}" in your account!`);
+                    window.location.href = 'account.html';
+                })
+                .catch((error) => {
+                    alert('Error saving chart data: ' + error.message);
+                });
+        }
+    });
+}
+    // NOTE: Add the event listener for the save button below, outside this function definition.
+
+    // Keeping your original print function, assuming it works as intended for the areaId
+    function printPageArea(areaId) {
+        const printContent = document.getElementById(areaId).innerHTML;
+        const originalContent = document.body.innerHTML;
+        document.body.innerHTML = printContent;
+        window.print();
+        document.body.innerHTML = originalContent;
+    }
+
+    // --- Load Chart Data from sessionStorage (from Account page) ---
+    // This logic runs when the page loads to check if data was passed from the Account page
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Chart page (Five Days) DOMContentLoaded fired.");
+
+        // Initialize Highcharts chart here initially with empty data,
+        // it will be updated if data is loaded from sessionStorage.
+        // This is important so 'chart' variable is defined even if no data is loaded.
+         generateChart(); // Call generateChart to create the chart instance
+
+
+        console.log("Checking sessionStorage for 'chartDataForLoad'...");
+        const storedDataJSON = sessionStorage.getItem('chartDataForLoad'); // *** Use the correct key from Account page ***
+        // console.log("sessionStorage value found:", storedDataJSON); // Uncomment for debugging
+
+        if (storedDataJSON) { // Check if the JSON string exists
+            try {
+                const storedData = JSON.parse(storedDataJSON); // Parse the JSON string
+                console.log("Parsed data from sessionStorage:", storedData); // Log the parsed object
+
+                // Load name, dob, and startDate into the input fields
+                document.getElementById('name').value = storedData.name || '';
+                document.getElementById('dob').value = storedData.dob || '';
+                document.getElementById('startDate').value = storedData.startDate || ''; // *** Load startDate ***
+                console.log("Name, DOB, and Start Date loaded from sessionStorage.");
+
+
+                // Load temperature data into the global 'data' array
+                // and then update the chart.
+                if (storedData.temperatures && Array.isArray(storedData.temperatures)) {
+                    // Clear the existing 'data' array if it had any initial points
+                    data.length = 0;
+                    // Add loaded points to the 'data' array
+                    storedData.temperatures.forEach(point => {
+                        data.push({
+                           x: point.timestamp,
+                           y: point.value,
+                           customTime: point.customTime || Highcharts.dateFormat('%H:%M', point.timestamp) // Ensure customTime exists
+                        });
+                    });
+
+                    // Sort data after pushing loaded points
+                     data.sort((a, b) => a.x - b.x);
+
+                    // Update the chart with the loaded data
+                    if (chart) {
+                         chart.series[0].setData(data, true);
+                         console.log("Chart data set successfully from sessionStorage.");
+                    } else {
+                         console.error("Chart object not initialized when attempting to load data.");
+                    }
+
+                } else {
+                    console.warn("No valid temperature data array found in stored data from sessionStorage:", storedData.temperatures);
+                     // If no valid temp data, ensure the chart is empty
+                     if (chart) chart.series[0].setData([], true);
+                }
+
+                // Clear the sessionStorage data *after attempting to load*, regardless of success of parsing/setting
+                // This prevents loading the same data again if the user navigates back and forth
+                 console.log("Clearing sessionStorage data...");
+                sessionStorage.removeItem('chartDataForLoad');
+                sessionStorage.removeItem('loadedChartSourcePage'); // Also clear the source page key
+                console.log("sessionStorage cleared.");
+
+            } catch (e) {
+                console.error("Error parsing stored chart data from sessionStorage:", e);
+                alert("Error loading saved chart data.");
+                // Clear potentially corrupt data to prevent future load attempts
+                 sessionStorage.removeItem('chartDataForLoad');
+                 sessionStorage.removeItem('loadedChartSourcePage');
+                 // Clear the chart if there was a parsing error
+                 if (chart) chart.series[0].setData([], true);
+            }
+        } else {
+            console.log("No 'chartDataForLoad' found in sessionStorage.");
+            // Chart remains empty (as initialized by generateChart()), ready for new entry
+        }
+
+        // --- Attach Event Listeners AFTER DOM is fully loaded and chart is initialized ---
+        // This is the correct place to attach event listeners
+        document.getElementById('saveButton').addEventListener('click', saveChartData);
+        document.getElementById('addData').addEventListener('click', addData); // Attach addData listener here too
+        document.getElementById('generateChart').addEventListener('click', generateChart); // Attach generateChart listener here
+
+        // Listeners for other buttons called via inline onclick are fine, but adding
+        // them here is generally a cleaner practice if you remove inline onclick.
+        // Example: document.getElementById('toggleGridButton').addEventListener('click', toggleGrid);
+        // document.getElementById('newChartSheet').addEventListener('click', newChartSheet);
+        // document.getElementById('shareGmail').addEventListener('click', shareGmail);
+        // document.getElementById('shareWhatsApp').addEventListener('click', shareWhatsApp);
+        // document.getElementById('printPrintableArea').addEventListener('click', printPrintableArea);
+
+
+    }); // End of DOMContentLoaded listener
+
+    // --- Function Definitions (OUTSIDE of DOMContentLoaded) ---
+
+    // calculateAge function is already defined above
+
+    // generateChart function is already defined above
+
+    // addData function is already defined above
+
+    // saveChartData function is already defined above
+
+    // printPageArea function is already defined above
+
+    // Function to clear the chart and inputs for a new sheet
+    function newChartSheet() {
+        // Clear all input fields
+        document.getElementById('name').value = '';
+        document.getElementById('dob').value = '';
+        document.getElementById('startDate').value = ''; // Clear start date
+        document.getElementById('dateInput').value = '';
+        document.getElementById('timeInput').value = '';
+        document.getElementById('tempInput').value = '';
+        document.getElementById('result').innerText = ''; // Clear age result
+
+        // Clear the global data array
+        data.length = 0;
+        console.log("Global data array cleared:", data);
+
+        // Clear the chart data
+        if (chart) {
+            console.log("Clearing chart data...");
+            chart.series[0].setData([], true);
+             chart.series[0].setData([], true);
+             console.log("Chart data cleared.");
+        } else {
+            console.log("Chart object not found when attempting to clear data.");
+        }
+
+
+        alert('Chart and inputs cleared for new entry!');
+         console.log("Chart sheet cleared for new entry.");
+    }
+
+    // Function to toggle the grid lines on the chart
+    // Called by onclick="toggleGrid()"
+    function toggleGrid() {
+        isGridVisible = !isGridVisible; // Toggle grid visibility state
+
+        // Update chart options for grid lines
+        // This will trigger a chart redraw
+        if (chart) { // Ensure chart exists
+             chart.update({
+                 xAxis: {
+                     gridLineColor: isGridVisible ? '#53535381' : null, // Use semi-transparent grey when visible
+                     gridLineWidth: isGridVisible ? 1 : 0 // Set width to 1 when visible, 0 when hidden
+                 },
+                 yAxis: [{ // Apply to the primary Y-axis (Fahrenheit)
+                     gridLineColor: isGridVisible ? '#53535381' : null,
+                     gridLineWidth: isGridVisible ? 1 : 0
+                 }, { // Apply to the secondary Y-axis (Celsius)
+                      gridLineColor: isGridVisible ? '#53535381' : null,
+                      gridLineWidth: isGridVisible ? 1 : 0
+                 }]
+             }, true); // Second argument 'true' makes it redraw
+
+             const button = document.getElementById('toggleGridButton');
+             if (button) { // Ensure button exists
+                 button.innerText = isGridVisible ? 'Hide Grid' : 'Show Grid'; // Update button text
+             }
+             console.log("Grid visibility toggled:", isGridVisible);
+        } else {
+            console.warn("Cannot toggle grid, chart object not initialized.");
+        }
+    }
+
+     // Function to open the sidebar navigation
+     // Called by onclick="openNav()"
+    function openNav() {
+        document.getElementById("mySidebar").style.width = "250px"; // Set the width of the sidebar when opened
+        console.log("Sidebar opened.");
+    }
+
+    // Function to close the sidebar navigation
+    // Called by onclick="closeNav()"
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0"; // Set the width of the sidebar to 0 when closed
+         console.log("Sidebar closed.");
+    }
+
+     // Function to share chart data via Gmail as a JSON file
+    function shareGmail() {
+        const name = document.getElementById('name').value.trim();
+        const dob = document.getElementById('dob').value;
+        const startDate = document.getElementById('startDate').value;
+        const temperatures = chart && chart.series && chart.series[0] && chart.series[0].data.map(point => ({
+            timestamp: point.x,
+            value: point.y,
+            customTime: point.customTime
+        })) || [];
+
+        if (!name || !dob || !startDate || temperatures.length === 0) {
+            alert('Please enter patient details, chart start date, and add temperature data before sharing.');
+            return;
+        }
+
+        // Prepare JSON data
+        const jsonData = JSON.stringify({
+            name: name,
+            dob: dob,
+            startDate: startDate,
+            temperatures: temperatures
+        }, null, 2);
+
+        // Create a Blob and a download link for the JSON file
+        const blob = new Blob([jsonData], { type: 'application/json' });
+        const fileName = `TemperatureChart_${name.replace(/\s+/g, '_') || 'Patient'}.json`;
+        const url = URL.createObjectURL(blob);
+
+        // Create a temporary download link and click it
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        // Compose a Gmail link with a message to attach the file
+        const subject = encodeURIComponent('Temperature Chart Data for ' + name);
+        const body = encodeURIComponent(
+            `Hi,\n\nPlease find attached the temperature chart data for ${name}.\n\n(If the file did not attach automatically, please attach the downloaded JSON file to this email.)`
+        );
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=&su=${subject}&body=${body}`;
+        window.open(gmailUrl, '_blank');
+    }
+
+    // Function to share chart data via WhatsApp as a JSON file (link)
+    function shareWhatsApp() {
+        const name = document.getElementById('name').value.trim();
+        const dob = document.getElementById('dob').value;
+        const startDate = document.getElementById('startDate').value;
+        const temperatures = chart && chart.series && chart.series[0] && chart.series[0].data.map(point => ({
+            timestamp: point.x,
+            value: point.y,
+            customTime: point.customTime
+        })) || [];
+
+        if (!name || !dob || !startDate || temperatures.length === 0) {
+            alert('Please enter patient details, chart start date, and add temperature data before sharing.');
+            return;
+        }
+
+        // Prepare JSON data
+        const jsonData = JSON.stringify({
+            name: name,
+            dob: dob,
+            startDate: startDate,
+            temperatures: temperatures
+        }, null, 2);
+
+        // Create a Blob and a download link for the JSON file
+        const blob = new Blob([jsonData], { type: 'application/json' });
+        const fileName = `TemperatureChart_${name.replace(/\s+/g, '_') || 'Patient'}.json`;
+        const url = URL.createObjectURL(blob);
+
+        // Download the file first (since WhatsApp Web can't attach files directly)
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        // Compose WhatsApp message with instructions
+        const message = `Hi,\nI've shared a temperature chart JSON file for ${name}.\nPlease find the file in your downloads and attach it here if needed.`;
+        const whatsappLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+        window.open(whatsappLink, '_blank');
+    }
+
+     // Function to print the designated printable area
+     // Called by onclick="printPrintableArea()"
+     function printPrintableArea() {
+    const printableArea = document.getElementById('printableArea');
+    if (!printableArea) {
+        console.error("Printable area element not found.");
+        alert("Could not find the area to print.");
+        return;
+    }
+
+    // Before printing, temporarily switch chart colors to black/white
+    if (chart) {
+        chart.update({
+            chart: { backgroundColor: "white" },
+            title: { style: { color: "black" } },
+            xAxis: {
+                labels: { style: { color: "black" } },
+                title: { style: { color: "black" } }
+            },
+            yAxis: [{
+                labels: { style: { color: "black" } },
+                title: { style: { color: "black" } }
+            }, {
+                labels: { style: { color: "black" } },
+                title: { style: { color: "black" } }
+            }],
+            series: [{
+                dataLabels: { style: { color: "black" } }
+            }]
+        });
+    }
+
+    // Open a new window for printing
+    const newWindow = window.open('', '_blank');
+    newWindow.document.write(`
+        <html>
+        <head>
+            <title>Temperature Chart Print</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                h1, h2, h3 { color: #333; }
+                #container { width: 100% !important; height: auto !important; }
+                button, input, label { display: none !important; }
+                h2, #result { display: block !important; margin-bottom: 5px !important; }
+            </style>
+        </head>
+        <body onload="window.print(); window.close();">
+            <h1>Record fever history</h1>
+            <div>
+                <h2>Details</h2>
+                <p><b>Name:</b> ${document.getElementById('name').value.trim()}</p>
+                <p><b>Date of Birth:</b> ${document.getElementById('dob').value}</p>
+                <p><b>Measured from:</b> ${document.getElementById('startDate').value}</p>
+                ${document.getElementById('result').innerText ? `<p>${document.getElementById('result').innerText}</p>` : ''}
+            </div>
+            ${document.getElementById('container').outerHTML}
+        </body>
+        </html>
+    `);
+    newWindow.document.close();
+
+    console.log("Initiated printing of printable area.");
+
+    // Restore dark mode styles after printing
+    if (chart) {
+        setTimeout(() => {
+            chart.update({
+                chart: { backgroundColor: "transparent" },
+                title: { style: { color: "rgba(255,255,255,.92)" } },
+                xAxis: {
+                    labels: { style: { color: "rgba(255,255,255,.80)" } },
+                    title: { style: { color: "rgba(255,255,255,.92)" } }
+                },
+                yAxis: [{
+                    labels: { style: { color: "rgba(255,255,255,.80)" } },
+                    title: { style: { color: "rgba(255,255,255,.92)" } }
+                }, {
+                    labels: { style: { color: "rgba(255,255,255,.80)" } },
+                    title: { style: { color: "rgba(255,255,255,.92)" } }
+                }],
+                series: [{
+                    dataLabels: { style: { color: "rgba(255,255,255,.95)" } }
+                }]
+            });
+        }, 1000); // restore after print finishes
+    }
+}
+
+
+    // --- Make functions globally available for inline onclick attributes ---
+    // If you use `addEventListener` for all buttons within DOMContentLoaded,
+    // you can remove these window assignments.
+    window.calculateAge = calculateAge;
+    // window.generateChart is attached via addEventListener in DOMContentLoaded
+    // window.addData is attached via addEventListener in DOMContentLoaded
+    // window.saveChartData is attached via addEventListener in DOMContentLoaded
+    window.newChartSheet = newChartSheet;
+    window.toggleGrid = toggleGrid;
+    window.openNav = openNav;
+    window.closeNav = closeNav;
+    window.shareGmail = shareGmail;
+    window.shareWhatsApp = shareWhatsApp;
+    window.printPrintableArea = printPrintableArea;
+
+    // Assuming goBack is defined somewhere globally:
+    // function goBack() { window.history.back(); }
+    // window.goBack = goBack;
+
+</script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="site.css">
+  <script src="site.js" defer></script>
+  <style>
+    /* Basic Styling */
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: url('https://mironroshanth.github.io/Peadiatric-temperature-chart-RDM/tc.jpeg') no-repeat center center fixed;
+      background-size: cover;
+    }
+    .container {
+      margin-top: 60px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      margin: 80px auto;
+    }
+    label {
+      font-weight: bold;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .rounded-input {
+      border-radius: 25px;
+      border: 2px solid #ccc;
+      padding: 10px;
+      width: 100%;
+      margin: 10px 0;
+      box-sizing: border-box;
+    }
+    textarea {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      transition: border-color 0.3s;
+      box-sizing: border-box;
+    }
+    textarea:focus {
+      border-color: #4CAF50;
+      outline: none;
+    }
+    .star-rating {
+      display: flex;
+      justify-content: center;
+      font-size: 30px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+    .star {
+      color: gray;
+      transition: color 0.2s;
+    }
+    .star.selected, .star.hover {
+      color: gold;
+    }
+    button {
+      background: linear-gradient(45deg, #6a11cb, #2575fc);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      width: 100%;
+      margin: 5px 0;
+    }
+    button:hover {
+      background: linear-gradient(45deg, #2575fc, #6a11cb);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Your feedback</h1>
+    <label>Your name:</label>
+    <input id="name" class="rounded-input" type="text" placeholder="Enter your name..."><br>
+
+    <label>Your age:</label>
+    <input id="age" class="rounded-input" type="number" placeholder="Enter your age..."><br>
+
+    <label>Date:</label>
+    <input id="date" class="rounded-input" type="date"><br>
+
+    <label for="rating">Rate Us:</label>
+    <div class="star-rating">
+      <span class="star" data-value="1">★</span>
+      <span class="star" data-value="2">★</span>
+      <span class="star" data-value="3">★</span>
+      <span class="star" data-value="4">★</span>
+      <span class="star" data-value="5">★</span>
+    </div>
+
+    <label for="comment">Your comments:</label>
+    <textarea id="comment" placeholder="Type your feedback here..."></textarea>
+
+    <label>Code piece:</label>
+    <textarea id="codePiece" class="code-space" placeholder="Write your code here..."></textarea>
+
+    <label for="devComments">Comments on your code:</label>
+    <textarea id="devComments" placeholder="Share your comments here..."></textarea>
+
+    <button onclick="shareFeedback()">Send feedback</button>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script>
+    // Replace with your actual project config
+    var firebaseConfig = {
+      apiKey: "AIzaSyB_iG1hCwRs82h_EoLmVERfHKxO2fh-M-Q",
+      authDomain: "temperature-chart-47839.firebaseapp.com",
+      projectId: "temperature-chart-47839", // Your project ID
+      storageBucket: "temperature-chart-47839.firebasestorage.app",
+      messagingSenderId: "764348196897",
+      appId: "1:764348196897:web:10e513dc51e6e839665b60",
+      measurementId: "G-RC7FGZHG3M"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Get a reference to the Firestore database
+    const db = firebase.firestore();
+
+    // Wait for DOMContentLoaded to ensure stars exist before selecting them
+    document.addEventListener('DOMContentLoaded', function() {
+      const stars = document.querySelectorAll('.star');
+      let selectedRating = 0;
+
+      stars.forEach((star, index) => {
+        star.addEventListener('click', () => {
+          selectedRating = index + 1;
+          stars.forEach((s, i) => {
+            s.classList.toggle('selected', i <= index);
+          });
+        });
+
+        star.addEventListener('mouseover', () => {
+          stars.forEach((s, i) => {
+            s.classList.toggle('hover', i <= index);
+          });
+        });
+
+        star.addEventListener('mouseout', () => {
+          stars.forEach(s => s.classList.remove('hover'));
+        });
+      });
+
+      // Function to send feedback via Gmail web
+      window.shareFeedback = function() {
+        const name = document.getElementById('name').value;
+        const age = document.getElementById('age').value;
+        const date = document.getElementById('date').value;
+        const comment = document.getElementById('comment').value;
+        const codePiece = document.getElementById('codePiece').value;
+        const devComments = document.getElementById('devComments').value;
+        const rating = selectedRating || 0;
+
+        // Construct the email body
+        const subject = encodeURIComponent("Feedback from " + (name || "Anonymous"));
+        const body = encodeURIComponent(
+          "Name: " + name + "\n" +
+          "Age: " + age + "\n" +
+          "Date: " + date + "\n" +
+          "Rating: " + rating + "\n" +
+          "Comments: " + comment + "\n" +
+          "Code piece:\n" + codePiece + "\n" +
+          "Comments on your code:\n" + devComments
+        );
+
+        // Open Gmail compose window in a new tab
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=kavitharoshanth@gmail.com&su=${subject}&body=${body}`;
+        window.open(gmailUrl, '_blank');
+      };
+    });
+  </script>
+
+
+</body>
+</html>
+

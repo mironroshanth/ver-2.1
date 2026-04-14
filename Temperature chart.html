@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site.css">
+    <script src="site.js" defer></script>
+    <title>Temperature Chart</title>
+    <style>
+      .save-buttons-container {
+  display: flex;
+  justify-content: center; /* centers them horizontally */
+  gap: 15px; /* spacing between buttons */
+  margin-top: 20px;
+}
+
+.save-button {
+  flex: 1; /* ensures equal width */
+  max-width: 200px; /* controls maximum size */
+  padding: 10px 15px; /* smaller button size */
+  font-size: 14px; /* smaller text */
+  text-align: center;
+}
+
+
+        .img-1 {
+    	display: block;
+    	width: 100%;
+    	height: auto;
+    	margin: 0;
+    	padding: 0;
+		}
+        .m{ display: none; }
+        @media screen and (max-width: 768px) {
+          .img-1{ display: none; }
+          .desktop-header{ display: none; }
+          .m{ display: block; }
+        }
+        .typing-container {
+  border: 2px solid #fff;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 800px;
+  margin: 30px auto;
+  position: relative;
+  color: #fff;
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-y: auto;   /* allows scrolling if text exceeds height */
+  height: 350px;      /* fixed height */
+}
+
+
+/* Faint green light effect */
+
+
+    </style>
+</head>
+<body>
+    <div style="position: relative;">
+        <img class="img-1" src="as.jpg" width="1450">
+        <div class="topnav">
+            <span class="menu-icon" onclick="openNav()">&#9776;</span>
+            <h1 class="mobile-header">Temperature chart</h1>
+            <div class="desktop-nav">
+                <a class="active" href="Temperature%20chart.html">Home&nbsp<i class="fa fa-home" ></i></a>
+                <a href="Day%201.html">New chart&nbsp<i class="fa fa-thermometer"></i></a>
+                <a href="about.html">About this website&nbsp<i class="fa fa-globe"></i></a>
+                <a href="Getting%20started.html">Getting started&nbsp<i class="fa fa-rocket"></i></a>
+                <a href="Devoloper.html">Contact&nbsp<i class="fa fa-phone"></i></a>
+                <a href="Convert%20to%20fahrenheit.html">Temperature converter&nbsp<i class="fa fa-wrench"></i></a>
+                <a href="account.html" class="ac-button">Your account and saved files&nbsp<i class="fa fa-user"></i></a>
+            </div>
+        </div>
+        <!-- Sidebar navigation -->
+        <div id="mySidebar" class="sidebar">
+        <a style="padding-left: 200px; margin-top: -50;" href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
+            <h1 style="padding-left: 16px; color: rgb(255,0,0); top: 100;"></h1>
+            
+            <a class="active" href="Temperature%20chart.html">Home</a>
+            <a href="Day%201.html">New chart</a>
+            <a href="about.html">About this website</a>
+            <a href="Getting%20started.html">Getting started</a>
+            <a href="Devoloper.html">Contact</a>
+            <a href="Convert%20to%20fahrenheit.html">Temperature converter</a>
+            <a href="account.html" class="ac-button">Your account and saved files</a>
+        </div>
+        
+        <div style="padding: 16px;">
+            
+                
+                <!-- This will be hidden on mobile -->
+            <br><br class="m">
+            <div class="typing-container">
+              <h3 class="code-font typing" id="typed-text"></h3>
+            </div>
+            
+                
+              <br><br>
+              <div class="save-buttons-container">
+                <a href="Day%202.html" class="save-button"><i class="fa fa-thermometer"></i>&nbspCreate live chart</a>
+                <a href="Temperatures%20recorded%20in%20all%20five%20days.html" class="save-button"><i class="fa fa-thermometer"></i>&nbspRecord fever history</a>
+                <a href="Devoloper.html" class="save-button"><i class="fa fa-phone"></i>&nbspContact us</a>
+              </div>
+              
+
+            <br><br>
+            <ul>
+              <div class="typing-container">
+                <h3 class="code-font typing" id="typed-about"></h3>
+              </div>
+            </ul>
+            <br><br>
+            
+        </div>
+    </div>
+</body>
+<!-- Temperature Chart topic with contact information -->
+<section id="temperature-info-container" class="temp-info-container" aria-labelledby="temp-info-title">
+  <div class="temp-info-inner">
+    <h2 id="temp-info-title">Temperature Chart</h2>
+    <div class="temp-info-text">
+      <p>Temperature Chart is a simple, user‑friendly tool designed to help you keep track of body temperature readings with ease. Created to support everyday health monitoring, it allows patients, caregivers, and medical professionals to record and review data in one place. Every entry is automatically time‑stamped, making your records accurate and reliable. If you’re new here, start with the Getting Started guide for step‑by‑step instructions, or explore the About page to learn more about the vision behind this project.</p>
+    </div>
+    <div class="temp-contact">
+      <strong>Contact</strong><br><br>
+      <p>Email: <a href="mailto:kavitharoshanth@gmail.com">kavitharoshanth@gmail.com</a></p>
+      <p>Whatsapp: <a href="tel:+94722408384">+94 72 24 08384</a></p>
+      <p>Office: Base Hospital, Kalmunai-North</p>
+    </div>
+  </div>
+</section>
+
+<script>
+    function openNav() {
+        document.getElementById("mySidebar").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+    }
+    
+    const segments = [
+  "The Temperature Chart website is an open-source digital platform designed to make medical record-keeping simple, accessible, and reliable. Built with healthcare needs in mind, it allows users to easily log, track, and visualize body temperature readings over time. Whether used by individuals monitoring their own health, caregivers supporting patients, or medical professionals seeking accurate records, the site provides a streamlined interface that prioritizes clarity and usability. ",
+  "The website features a ",
+  { html: '<a href="Getting%20started.html">Getting Started guide</a>' },
+  " to help new users quickly learn how to record and manage data, while the ",
+  { html: '<a href="about.html">About</a>' },
+  " page offers deeper insight into its purpose, vision, and community-driven development."
+];
+
+const target = document.getElementById("typed-text");
+let segIndex = 0;
+let charIndex = 0;
+const speed = 25; // ms per character
+
+
+
+
+const segmentsAbout = [
+  {html: '<h1>About this website</h1><br>'},
+  "Temperature Chart is a simple, user‑friendly tool designed to help you keep track of body temperature readings with ease. ",
+  "Created to support everyday health monitoring, it allows patients, caregivers, and medical professionals to record and review data in one place. ",
+  "Every entry is automatically time‑stamped, making your records accurate and reliable. ",
+  "If you’re new here, start with the ",
+  { html: '<a href="Getting%20started.html">Getting Started guide</a>' },
+  " for step‑by‑step instructions, or explore the ",
+  { html: '<a href="about.html">About page</a>' },
+  " to learn more about the vision behind this project."
+];
+
+
+function typeWriter(segments, targetId, speed = 25) {
+  const target = document.getElementById(targetId);
+  let segIndex = 0;
+  let charIndex = 0;
+
+  function type() {
+    if (segIndex < segments.length) {
+      const segment = segments[segIndex];
+      if (typeof segment === "string") {
+        if (charIndex < segment.length) {
+          target.innerHTML += segment.charAt(charIndex);
+          charIndex++;
+          setTimeout(type, speed);
+        } else {
+          segIndex++;
+          charIndex = 0;
+          type();
+        }
+      } else {
+        target.innerHTML += segment.html;
+        segIndex++;
+        charIndex = 0;
+        setTimeout(type, speed);
+      }
+    }
+  }
+  type();
+}
+
+// Run both animations
+typeWriter(segments, "typed-text");
+typeWriter(segmentsAbout, "typed-about");
+
+</script>
+</html>

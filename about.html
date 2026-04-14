@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="site.css">
+  <script src="site.js" defer></script>
+  <title>About</title>
+</head>
+<body>
+  <div class="topnav">
+    <span class="menu-icon" onclick="openNav()">&#9776;</span>
+    <h1 class="mobile-header">Temperature chart</h1>
+    <div class="desktop-nav">
+      <a href="Temperature%20chart.html">Home&nbsp<i class="fa fa-home"></i></a>
+      <a href="Day%201.html">New chart&nbsp<i class="fa fa-thermometer"></i></a>
+      <a class="active" href="about.html">About&nbsp<i class="fa fa-globe"></i></a>
+      <a href="Getting%20started.html">Getting started&nbsp<i class="fa fa-rocket"></i></a>
+      <a href="Devoloper.html">Contact&nbsp<i class="fa fa-phone"></i></a>
+      <a href="Convert%20to%20fahrenheit.html">Temperature converter&nbsp<i class="fa fa-wrench"></i></a>
+      <a href="account.html" class="ac-button">Your account&nbsp<i class="fa fa-user"></i></a>
+    </div>
+  </div>
+
+  <div id="mySidebar" class="sidebar" aria-hidden="true">
+    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
+    <a href="Temperature%20chart.html">Home</a>
+    <a href="Day%201.html">New chart</a>
+    <a class="active" href="about.html">About</a>
+    <a href="Getting%20started.html">Getting started</a>
+    <a href="Devoloper.html">Contact</a>
+    <a href="Convert%20to%20fahrenheit.html">Temperature converter</a>
+    <a href="account.html" class="ac-button">Your account</a>
+  </div>
+
+  <div class="page">
+    <div class="typing-container2">
+      <h1 class="code-font typing">About this website</h1><br><br>
+      <p class="code-font typing">
+    The Temperature Chart website is an open-source digital platform designed to make medical record-keeping simple, accessible, and reliable. Built with healthcare needs in mind, it allows users to easily log, track, and visualize body temperature readings over time. Whether used by individuals monitoring their own health, caregivers supporting patients, or medical professionals seeking accurate records, the site provides a streamlined interface that prioritizes clarity and usability. If you are new here, this website features a Getting Started guide to help new users quickly learn how to record and manage data.
+  </p></div><br><br>
+<h2>If you have found this website useful,</h2> <br>
+<h3>
+
+Please share this webpage with others by,<br>
+<ul><li>Scanning this QR code to open this website from another device</li><br>
+  <img src="Temperature Chart.png" width="250px" height="auto"><br><br>
+<li>Or by downloading the QR code by <a href="QR code.zip" download>clicking here</a>
+</li>
+        <br>
+        <li>Or by sharing the URL of this page with others</li>
+</ul>
+
+</h3>
+        <button type="button" onclick="copyHidden()"><i class="fa fa-copy" style="color: white;"></i>Copy website URL</button>
+	<p id="hiddenText" style="display:none;">Sign in.html</p><br>
+        <br>
+
+</h3><br>
+</div>
+</div>
+<section id="temperature-info-container" class="temp-info-container" aria-labelledby="temp-info-title">
+  <div class="temp-info-inner">
+    <h2 id="temp-info-title">Temperature Chart</h2>
+    <div class="temp-info-text">
+      <p>Temperature Chart is a simple, user‑friendly tool designed to help you keep track of body temperature readings with ease. Created to support everyday health monitoring, it allows patients, caregivers, and medical professionals to record and review data in one place. Every entry is automatically time‑stamped, making your records accurate and reliable. If you’re new here, start with the Getting Started guide for step‑by‑step instructions, or explore the About page to learn more about the vision behind this project.</p>
+    </div>
+    <div class="temp-contact">
+      <strong>Contact</strong><br><br>
+      <p>Email: <a href="mailto:kavitharoshanth@gmail.com">kavitharoshanth@gmail.com</a></p>
+      <p>Whatsapp: <a href="tel:+94722408384">+94 72 24 08384</a></p>
+      <p>Office: Base Hospital, Kalmunai-North</p>
+    </div>
+  </div>
+</section>
+  <script>
+    function copyHidden() {
+      const text = document.getElementById('hiddenText').innerText;
+      navigator.clipboard.writeText(text)
+        .then(() => alert('Website URL copied!'))
+        .catch(err => alert('Failed to copy: ' + err));
+    }
+  </script>
+</body>
+</html>
