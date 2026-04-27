@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Day 4</title>
   <script src="https://code.highcharts.com/highcharts.js"></script>
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2196F3">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
   <link rel="stylesheet" href="site.css">
   <script src="site.js" defer></script>
   <style>
@@ -62,7 +66,15 @@ controls="controls">
 type="video/mp4" />
 </div>
 </video><br><br>
-
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('App ready: ', reg.scope))
+        .catch(err => console.log('Registration failed: ', err));
+    });
+  }
+</script>
 </body>
 <section id="temperature-info-container" class="temp-info-container" aria-labelledby="temp-info-title">
   <div class="temp-info-inner">
