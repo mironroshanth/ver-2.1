@@ -1,0 +1,16 @@
+{
+  "name": "Temperature Chart",
+  "short_name": "TempChart",
+  "description": "A digital platform to log, track, and visualize body temperature readings.",
+  "start_url": "./Sign%20in.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2196F3",
+  "icons": [
+    {
+      "src": "heart.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
