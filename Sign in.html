@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="site.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="site.js" defer></script>
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2196F3">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -422,7 +426,15 @@
         }); // End of DOMContentLoaded listener
 
     </script>
-
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('App ready: ', reg.scope))
+        .catch(err => console.log('Registration failed: ', err));
+    });
+  }
+</script>
 </body>
 <section id="temperature-info-container" style="display: none;" class="temp-info-container" aria-labelledby="temp-info-title">
   </section>
