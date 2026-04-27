@@ -10,6 +10,10 @@
     <script src="highcharts.js"></script>
     <link rel="stylesheet" href="site.css">
     <script src="site.js" defer></script>
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2196F3">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
     <style>
 .save-buttons-container {
   display: flex;
@@ -969,6 +973,15 @@ function saveChartData() {
     // function goBack() { window.history.back(); }
     // window.goBack = goBack;
 
+</script>
+    <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('App ready: ', reg.scope))
+        .catch(err => console.log('Registration failed: ', err));
+    });
+  }
 </script>
 </body>
 </html>
